@@ -1,5 +1,5 @@
 # consulting-luc-f21
-Statistical Consulting, Loyola University Chicago, Fall 2021
+A repository for sharing resources for Statistical Consulting at Loyola University Chicago, Fall 2021
 
 Hello Children
 
