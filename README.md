@@ -1,4 +1,4 @@
-# consulting-luc-f21
+# About `consulting-luc-f21`
 A repository for sharing resources for Statistical Consulting at Loyola University Chicago, Fall 2021
 
 # Suggestions
