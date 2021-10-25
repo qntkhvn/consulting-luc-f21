@@ -5,8 +5,7 @@ A repository for sharing resources for Statistical Consulting at Loyola Universi
 
 * Documents/papers/slides in `.pdf` format are strongly preferred.
 
-* Word and powerpoint files (`.docx`, `.ppt`) are also fine, but discouraged.
-
+* Word and powerpoint files (`.docx`, `.ppt`) are also fine, but discouraged. Ditto for data files with `.xlsx` and `.xls` extensions.
 
 Cheers.
 
