@@ -1,0 +1,320 @@
+---
+title: SHAP and Shapley Values
+date: Loyola University Chicago
+output: 
+  beamer_presentation: 
+    theme: Boadilla
+    color: beaver
+    fonttheme: professionalfonts
+    keep_tex: yes
+    df_print: kable
+    highlight: tango
+csl: apa.csl
+bibliography: ref.bib 
+# aspectratio: 169
+fontsize: 11pt
+header-includes:
+  - \usepackage{xcolor}
+  - \definecolor{luc}{RGB}{88, 41, 49}
+  - \setbeamercolor{itemize/enumerate body}{fg=luc}
+  - \setbeamercolor{title}{fg=luc}
+  - \setbeamercolor{frametitle}{fg=luc}
+  - \setbeamertemplate{itemize item}{\color{luc}$\blacktriangleright$}
+  - \setbeamertemplate{itemize subitem}{\color{luc}$\blacktriangleright$}
+  - \setbeamercolor{footnote}{fg=luc}
+  - \setbeamercolor{footnote mark}{fg=luc}
+  - \setbeamercolor{footlinecolor}{fg=black,bg=lightgray}
+  - \setbeamertemplate{navigation symbols}{}
+  - \author[Q. Nguyen]{Quang Nguyen}
+  - \setbeamercovered{transparent}
+  - \setbeamercolor{block title}{fg=luc}
+  - \setbeamercolor{local structure}{fg=luc}
+  - \usepackage{bbding}
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "")
+```
+
+# Outline
+
+*   Flexibility-Interpretability Trade-Off
+
+*   Interpretable Machine Learning
+
+*   SHAP
+
+*   Shapley values
+
+*   Examples
+
+*   Resources
+
+# Model Interpretability
+
+*   Prediction accuracy - model interpretability trade-off is a big idea in ML.
+
+*   In general, interpretability decreases as flexibility increases [@islr2]
+
+*   It is difficult to interpret more complex/black-box models (e.g. random forest, gradient boosted trees)
+
+# Model Interpretability  
+
+*   The demand for model interpretability has increased in recent years.
+
+*   IML (interpretable machine learning) has emerged as a new area of research
+
+*   This has become an integral part of the machine learning pipeline
+
+*   More and more methods has been developed
+
+    *   LIME [@lime]
+    
+    *   **SHAP** [@shap]
+    
+    *   BreakDown [@breakdown]
+    
+    *   LEAF [@leaf]
+
+# SHAP
+
+*   **SH**apley **A**dditive ex**P**lanations
+
+*   Goal: explain the prediction of an observation $x_{obs}$ by computing the contribution of each feature to the prediction
+
+\vspace{-2mm}
+$$\hat{f}(x_{obs}) - \sum_{i=1}^{N}\hat{f}(x_i)$$
+
+*   Can be applied on a local level (a single row) and global level (aggregated into variable importance summaries)
+
+*   SHAP satistifies the following properties
+
+    *   Local accuracy
+    
+    *   Missingness
+    
+    *   Consistency
+    
+#   SHAP 
+
+*   Based on **Shapley values** [@shapley]
+
+    *   Originated from game theory, named after Lloyd Shapley
+    
+    *   Average marginal contribution of a player across all possible coalitions in a game
+
+\vspace{-5mm}
+$$\displaystyle \phi _{i}(v)=\sum _{S\subseteq \{1,...,p\}\setminus \{i\}}{\frac {|S|!\;(p-|S|-1)!}{p!}}(v(S\cup \{i\})-v(S))$$
+
+*   In a prediction setting
+
+    *   **"Game"**: prediction task for an $x_{obs}$
+    
+    *   **"Players"**: feature values of $x_{obs}$ that collaborate to receive gain/payout (i.e. predict a certain value)
+    
+    *   **"Gain/Payout"**: difference between predicted $x_{obs}$ and average prediction for all training observations 
+
+# Disadvantages
+
+*   SHAP and Shapley values are computationally expensive
+
+    *   In most software/packages, approximations are used
+
+*   Shapley values can be misinterpreted
+
+    $\bf{\times}$   The difference of the predicted value after removing the feature from the model training
+    
+    \Checkmark Given the current set of feature values, the contribution of a feature value to the difference between the actual prediction and the mean prediction is the estimated Shapley value.
+
+
+
+# Example
+
+*   **Random forest model on `titanic` dataset**
+
+*   **`fastshap`** [@fastshap] `R` package
+
+*   Data prep
+
+\vspace{4mm}
+
+\small
+
+```{r}
+library(tidyverse)
+theme_set(theme_minimal())
+```
+
+```{r}
+titanic <- titanic::titanic_train %>%
+  janitor::clean_names() %>%
+  dplyr::select(survived, pclass, sex, age, embarked) %>%
+  tidyr::drop_na() %>% 
+  dplyr::mutate(survived = as_factor(survived),
+                across(where(is_character), as_factor))
+```
+
+\normalsize
+
+# Example
+
+*   RF fit
+
+```{r,include=FALSE}
+set.seed(100)
+```
+
+\small
+
+```{r}
+titanic_rf <- ranger::ranger(survived ~ ., 
+                             probability = TRUE,
+                             data = titanic)
+```
+
+\normalsize
+
+*   Explain
+
+\small
+
+```{r}
+surv_prob <- function(object, newdata) {
+  predict(object, newdata)$predictions[, 2]
+}
+x_train <- dplyr::select(titanic, -survived)
+```
+
+```{r}
+titanic_explain <- titanic_rf %>%
+  fastshap::explain(X = data.frame(x_train),
+                    nsim = 100,
+                    adjust = TRUE,
+                    pred_wrapper = surv_prob)
+```
+
+\normalsize
+
+# Example
+
+\small
+
+```{r}
+head(titanic_explain)
+```
+
+\normalsize
+
+# Example
+
+*   Variable importance, global level
+
+\small
+
+```{r, fig.height=3, fig.width=6}
+autoplot(titanic_explain)
+```
+
+\normalsize
+
+# Example
+
+*   Explaining an individual observation: **Jack Dawson**
+
+\small
+
+```{r}
+jack <- data.frame(pclass = 3,
+                   sex = "male",
+                   age = 20,
+                   embarked = "S")
+```
+
+```{r}
+jack_prob <- surv_prob(titanic_rf, jack)
+jack_prob
+```
+
+```{r}
+baseline_prob <- mean(surv_prob(titanic_rf, x_train))
+baseline_prob
+```
+
+\normalsize
+
+# Example
+
+\small
+
+```{r}
+jack_explain <- fastshap::explain(titanic_rf,
+                                  X = x_train,
+                                  newdata = jack,
+                                  nsim = 1000,
+                                  adjust = TRUE,
+                                  pred_wrapper = surv_prob)
+jack_explain
+```
+
+\normalsize
+
+# Example
+
+*   Waterfall chart
+
+\vspace{4mm}
+
+\small
+
+```{r, eval = FALSE, fig.width=6, fig.height=3.5}
+feat_shap <- tibble(feature = str_c(names(jack), " = ", t(jack)),
+                    shapley = t(jack_explain))
+
+waterfall::waterfallchart(feature ~ shapley, 
+                          data = feat_shap, 
+                          origin = baseline_prob,
+                          summaryname = "Total difference",
+                          xlab = "Survival probability")
+```
+
+\normalsize
+
+# Example
+
+\small
+
+```{r, echo = FALSE, fig.width=6, fig.height=4}
+feat_shap <- tibble(feature = str_c(names(jack), " = ", t(jack)),
+                    shapley = t(jack_explain))
+palette("Tableau")
+library(waterfall)
+waterfallchart(feature ~ shapley, 
+               data = feat_shap, 
+               origin = baseline_prob,
+               summaryname = "Total difference", 
+               col = 3:4,
+               xlab = "Survival probability")
+```
+
+\normalsize
+
+# Resources
+
+*   Book: 
+    
+    *   [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book) [@iml]
+
+*   Papers: 
+
+    *   [Explainable Artificial Intelligence: a Systematic Review](https://arxiv.org/abs/2006.00093) [@expl]
+
+    *   [Landscape of R packages for eXplainable Artificial Intelligence](https://arxiv.org/abs/2009.13248) [@landscape]
+
+
+Cheers.
+
+# References {.allowframebreaks}
