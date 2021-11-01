@@ -1,0 +1,137 @@
+@book{islr2,
+    title = {An Introduction to Statistical Learning: with Applications in R},
+    author = {James, G. and Witten, D. and Hastie, T. and Tibshirani, R.},
+    isbn = {978-1-0716-1418-1},
+    series = {Springer Texts in Statistics},
+    year = {2021},
+    edition = 2,
+    publisher = {Springer US},
+    doi = {10.1007/978-1-0716-1418-1},
+    url = {/bib/james/james2013introduction/ISLR+First+Printing.pdf,http://www-bcf.usc.edu/~gareth/ISL/,http://books.google.com.tr/books?id=qcI\_AAAAQBAJ},
+}
+
+
+@inproceedings{lime,
+    title = "{``}Why Should {I} Trust You?{''}: Explaining the Predictions of Any Classifier",
+    author = "Ribeiro, Marco  and
+      Singh, Sameer  and
+      Guestrin, Carlos",
+    booktitle = "Proceedings of the 2016 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Demonstrations",
+    month = jun,
+    year = "2016",
+    address = "San Diego, California",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/N16-3020",
+    doi = "10.18653/v1/N16-3020",
+    pages = "97--101",
+}
+
+@inproceedings{shap,
+author = {Lundberg, Scott M. and Lee, Su-In},
+title = {A Unified Approach to Interpreting Model Predictions},
+year = {2017},
+isbn = {9781510860964},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {Understanding why a model makes a certain prediction can be as crucial as the prediction's
+accuracy in many applications. However, the highest accuracy for large modern datasets
+is often achieved by complex models that even experts struggle to interpret, such
+as ensemble or deep learning models, creating a tension between accuracy and interpretability.
+In response, various methods have recently been proposed to help users interpret the
+predictions of complex models, but it is often unclear how these methods are related
+and when one method is preferable over another. To address this problem, we present
+a unified framework for interpreting predictions, SHAP (SHapley Additive exPlanations).
+SHAP assigns each feature an importance value for a particular prediction. Its novel
+components include: (1) the identification of a new class of additive feature importance
+measures, and (2) theoretical results showing there is a unique solution in this class
+with a set of desirable properties. The new class unifies six existing methods, notable
+because several recent methods in the class lack the proposed desirable properties.
+Based on insights from this unification, we present new methods that show improved
+computational performance and/or better consistency with human intuition than previous
+approaches.},
+booktitle = {Proceedings of the 31st International Conference on Neural Information Processing Systems},
+pages = {4768–4777},
+numpages = {10},
+location = {Long Beach, California, USA},
+series = {NIPS'17},
+url={https://dl.acm.org/doi/10.5555/3295222.3295230},
+}
+
+
+@Article{leaf,
+author={Amparore, Elvio
+and Perotti, Alan
+and Bajardi, Paolo},
+title={To trust or not to trust an explanation: using LEAF to evaluate local linear XAI methods},
+journal={PeerJ. Computer science},
+year={2021},
+month={Apr},
+day={16},
+publisher={PeerJ Inc.},
+volume={7},
+pages={e479-e479},
+keywords={LIME; Local linear explanation; Machine Learning Auditing; SHAP; eXplainable AI},
+abstract={The main objective of eXplainable Artificial Intelligence (XAI) is to provide effective explanations for black-box classifiers. The existing literature lists many desirable properties for explanations to be useful, but there is a scarce consensus on how to quantitatively evaluate explanations in practice. Moreover, explanations are typically used only to inspect black-box models, and the proactive use of explanations as a decision support is generally overlooked. Among the many approaches to XAI, a widely adopted paradigm is Local Linear Explanations-with LIME and SHAP emerging as state-of-the-art methods. We show that these methods are plagued by many defects including unstable explanations, divergence of actual implementations from the promised theoretical properties, and explanations for the wrong label. This highlights the need to have standard and unbiased evaluation procedures for Local Linear Explanations in the XAI field. In this paper we address the problem of identifying a clear and unambiguous set of metrics for the evaluation of Local Linear Explanations. This set includes both existing and novel metrics defined specifically for this class of explanations. All metrics have been included in an open Python framework, named LEAF. The purpose of LEAF is to provide a reference for end users to evaluate explanations in a standardised and unbiased way, and to guide researchers towards developing improved explainable techniques.},
+note={33977131[pmid]},
+note={PMC8056245[pmcid]},
+note={cs-479[PII]},
+issn={2376-5992},
+doi={10.7717/peerj-cs.479},
+url={https://pubmed.ncbi.nlm.nih.gov/33977131},
+url={https://doi.org/10.7717/peerj-cs.479},
+language={eng}
+}
+
+
+@article{breakdown,
+  author = {Mateusz Staniak and Przemysław Biecek},
+  title = {{Explanations of Model Predictions with live and breakDown
+          Packages}},
+  year = {2018},
+  journal = {{The R Journal}},
+  doi = {10.32614/RJ-2018-072},
+  url = {https://doi.org/10.32614/RJ-2018-072},
+  pages = {395--409},
+  volume = {10},
+  number = {2}
+}
+
+
+@book{shapley,
+author="Shapley, Lloyd S.",
+title="Notes on the N-Person Game - {I}: Characteristic-Point Solutions of the Four-Person Game",
+address="Santa Monica, CA",
+year="1951",
+doi="10.7249/RM0656",
+publisher="RAND Corporation"
+}
+
+@Manual{fastshap,
+    title = {fastshap: Fast Approximate Shapley Values},
+    author = {Brandon Greenwell},
+    year = {2020},
+    note = {R package version 0.0.5},
+    url = {https://CRAN.R-project.org/package=fastshap},
+  }
+  
+  
+  @misc{landscape,
+      title={Landscape of R packages for eXplainable Artificial Intelligence}, 
+      author={Szymon Maksymiuk and Alicja Gosiewska and Przemyslaw Biecek},
+      year={2021},
+      eprint={2009.13248},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+
+@book{iml, title = {Interpretable Machine Learning}, author = {Christoph Molnar}, year = {2019}, subtitle = {A Guide for Making Black Box Models Explainable}, url = {https://christophm.github.io/interpretable-ml-book}}
+
+@misc{expl,
+      title={Explainable Artificial Intelligence: a Systematic Review}, 
+      author={Giulia Vilone and Luca Longo},
+      year={2020},
+      eprint={2006.00093},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
