@@ -1,0 +1,53 @@
+---
+title: "488_Consulting_presentation1_Armer"
+author: "Madeleine Armer"
+date: "9/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+head(iris)
+
+full <- lm(Sepal.Length ~ ., data = iris)
+#summary(full)
+
+
+library(MASS)
+stepmodel <- stepAIC(full, direction = "backward", 
+                      trace = FALSE)
+#summary(stepmodel)
+
+picked1 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width, data = iris)
+picked2 <- lm(Sepal.Length ~ Petal.Length + Petal.Width, data = iris)
+
+
+
+AIC(full)
+AIC(stepmodel)  
+AIC(picked1)
+AIC(picked2)
+
+BIC(full)
+BIC(picked1)
+BIC(picked2) 
+
+
+#install.packages("AICcmodavg")
+library(AICcmodavg)
+
+models <- list(full, stepmodel, picked1, picked2)
+model.names <- c('full', 'stepmodel', 'picked1', 'picked2')
+aictab(cand.set = models, modnames = model.names)
+
+
+
+
+
+```
+
